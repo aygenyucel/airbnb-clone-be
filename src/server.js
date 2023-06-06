@@ -3,12 +3,16 @@ import dotenv from "dotenv";
 import listEndpoints from "express-list-endpoints";
 import cors from "cors";
 import createHttpError from "http-errors";
+import mongoose, { Mongoose, mongo } from "mongoose";
+import http from "http";
 
 
 dotenv.config();
 
 const server = express();
 const port = process.env.PORT;
+
+const httpServer = http.createServer(server);
 
 
 //************ MIDDLEWARES **************/
@@ -34,10 +38,19 @@ server.use(cors({
 
 //************************************ */
 
+mongoose.set("strictQuery", false);
+mongoose.connect(process.env.MONGO_CONNECTION_URL);
 
-server.listen(port, () => {
-    console.table(listEndpoints(server));
-    console.log("Server is running on port:", port);
+mongoose.connection.on("connected", () => {
+    httpServer.listen(port, () => {
+        console.table(listEndpoints(server));
+        console.log("Server is running on port:", port)        
+    })
 })
+
+// server.listen(port, () => {
+//     console.table(listEndpoints(server));
+//     console.log("Server is running on port:", port);
+// })
 
 
