@@ -3,8 +3,10 @@ import dotenv from "dotenv";
 import listEndpoints from "express-list-endpoints";
 import cors from "cors";
 import createHttpError from "http-errors";
-import mongoose, { Mongoose, mongo } from "mongoose";
+import mongoose from "mongoose";
 import http from "http";
+import { badRequestErrorHandler, conflictErrorHandler, forbiddenErrorHandler, genericServerError, notFoundErrorHandler, unauthorizedErrorHandler } from "./errorHandlers.js";
+import usersRouter from "./api/users/index.js";
 
 
 dotenv.config();
@@ -34,7 +36,16 @@ server.use(cors({
 
 //************ ENDPOINTS  ***************/
 
+server.use("/users", usersRouter);
+
 //************ ERROR HANDLERS *************/
+
+server.use(notFoundErrorHandler);
+server.use(badRequestErrorHandler);
+server.use(conflictErrorHandler);
+server.use(unauthorizedErrorHandler);
+server.use(forbiddenErrorHandler);
+server.use(genericServerError);
 
 //************************************ */
 
