@@ -1,7 +1,6 @@
 import express from "express";
 import UsersModel from "./model.js";
 import createHttpError from "http-errors";
-import usersRouter from './index';
 
 const usersRouter = express.Router();
 
