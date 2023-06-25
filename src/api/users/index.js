@@ -72,4 +72,45 @@ usersRouter.delete("/:userID", async(req,res,next) => {
     }
 })
 
+//check email if user already exist
+usersRouter.post("/checkEmailExist", async (req, res, next) => {
+    try {
+        const {email} = req.body;
+        const user = await UsersModel.checkEmail(email)
+
+
+        if(user) {
+            //if user exist
+            //FE: redirect to login page with this email and ask for password
+            res.send(email)
+        } else {
+            //if user not exist
+            //FE: redirect to signup page with this email
+            
+            
+            next(createHttpError(404, `User with email "${email}" not found!`))
+        }
+    } catch(error) {
+        next(error)
+    }
+})
+
+//user signup or login with email
+// usersRouter.post("/signupLoginEmail", async(req, res, next) => {
+//     try{
+//         const {email} = req.body;
+//         const user = await UsersModel.checkEmail(email)
+
+//         if(user) {
+            
+//         } else {
+
+//         }
+
+//     } catch(error){
+//         next(error)
+//     }
+// })
+
+//user login
 export default usersRouter;
