@@ -41,9 +41,10 @@ usersSchema.static("checkCredentials", async function (email, password) {
 
 usersSchema.static("checkEmail", async function (email) {
     const UserModel = this;
-    const user = await UserModel.findOne({email: email})
+    const user = await UserModel.findOne({email})
     if(user) {
         return email;
+
     } else {
         return null;
     }
