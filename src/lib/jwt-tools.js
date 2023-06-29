@@ -12,7 +12,7 @@ export const createJWTToken = (payload) => new Promise(
     }
 )
 
-export const verifyJWTToken = (payload) => new Promise(
+export const verifyJWTToken = (token) => new Promise(
     (resolve, reject) => {
         jwt.verify(token, process.env.JWT_SECRET, (err, originalPayload) => {
             if(err) {

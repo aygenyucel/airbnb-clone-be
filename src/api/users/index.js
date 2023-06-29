@@ -2,6 +2,7 @@ import express from "express";
 import UsersModel from "./model.js";
 import createHttpError from "http-errors";
 import { createJWTToken } from './../../lib/jwt-tools.js';
+import { JWTAuth } from "../../lib/auth/JWTAuth.js";
 
 const usersRouter = express.Router();
 
@@ -22,6 +23,17 @@ usersRouter.post("/", async(req, res, next) => {
         const {_id} = await newUser.save();
 
         res.status(201).send({id})
+    } catch (error) {
+        next(error)
+    }
+})
+
+//get own profile after auth
+usersRouter.get("/me", JWTAuth, async(req, res, next) => {
+    try {
+        const {_id} = req.user;
+        const user = await UsersModel.findById(_id);
+        res.send(user);
     } catch (error) {
         next(error)
     }
@@ -99,7 +111,7 @@ usersRouter.post("/signupLoginEmail", async(req, res, next) => {
         const user = await UsersModel.checkEmail(email)
 
         if(user) {
-            //if user exist, check credentials and return user
+            //login: if user exist, check credentials and return user
             const {email, password} = req.body;
             const userLogged = await UsersModel.checkCredentials(email, password)
 
@@ -112,7 +124,7 @@ usersRouter.post("/signupLoginEmail", async(req, res, next) => {
             }
 
         } else {
-            //if user not exist, create new user
+            //signup: if user not exist, create new user
             const newUser = new UsersModel(req.body);
             const {_id} = await newUser.save();
             const payload = {_id}
