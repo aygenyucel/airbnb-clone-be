@@ -1,7 +1,7 @@
 import express from "express";
 import UsersModel from "./model.js";
 import createHttpError from "http-errors";
-import { createJWTToken } from './../../lib/jwt-tools.js';
+import { createJWTToken, createTokens, verifyRefreshAndCreateNewTokens } from './../../lib/jwt-tools.js';
 import { JWTAuth } from "../../lib/auth/JWTAuth.js";
 
 const usersRouter = express.Router();
@@ -113,26 +113,36 @@ usersRouter.post("/signupLoginEmail", async(req, res, next) => {
         if(user) {
             //login: if user exist, check credentials and return user
             const {email, password} = req.body;
-            const userLogged = await UsersModel.checkCredentials(email, password)
+            const user = await UsersModel.checkCredentials(email, password)
 
-            if (userLogged){
-                const payload = {_id: userLogged._id}
-                const JWTToken = await createJWTToken(payload);
-                res.send({JWTToken})
+            if (user){
+                const {JWTToken, refreshToken} = await createTokens(user);
+                res.send({JWTToken, refreshToken})
             } else {
                 next(createHttpError(404, "Credentials are not ok!"))
             }
 
         } else {
             //signup: if user not exist, create new user
+
             const newUser = new UsersModel(req.body);
             const {_id} = await newUser.save();
-            const payload = {_id}
-            const JWTToken = await createJWTToken(payload);
-            res.status(201).send({JWTToken})
+            const {JWTToken, refreshToken} = await createTokens(newUser);
+            res.status(201).send({JWTToken, refreshToken})
         }
 
     } catch(error){
+        next(error)
+    }
+})
+
+//To create new tokens with verifying refresh token first
+usersRouter.post("/signupLogin/refresh", async(req, res, next) => {
+    try {
+        const {currentRefreshToken} = req.body;
+        const {JWTToken, refreshToken} = await verifyRefreshAndCreateNewTokens(currentRefreshToken)
+        res.send({JWTToken, refreshToken});
+    } catch (error) {
         next(error)
     }
 })

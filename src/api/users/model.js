@@ -8,7 +8,8 @@ const usersSchema = new Schema({
     password: {type: String, required: true},
     phone: {type: Number},
     birthDate: {type: Date},
-    places: [{type: Schema.Types.ObjectId, ref: "Place"}]
+    places: [{type: Schema.Types.ObjectId, ref: "Place"}],
+    refreshToken: {type: String, required: false}
 },
 {timestamps: true})
 
@@ -44,7 +45,6 @@ usersSchema.static("checkEmail", async function (email) {
     const user = await UserModel.findOne({email})
     if(user) {
         return email;
-
     } else {
         return null;
     }
