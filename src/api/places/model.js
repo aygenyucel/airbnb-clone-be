@@ -12,15 +12,15 @@ const placesSchema = new Schema({
 
     //**************************************/
 
-    location: {type: Geolocation},
+    // location: {type: Geolocation},
 
     country: {type: String, require: true},
     //Country / Region
 
-    town: {type: String, require: true},
+    town: {type: String},
     //Town / neighborhood
 
-    streetAddress: {type: String, require: true},
+    streetAddress: {type: String},
 
     postalCode: {type: Number},
     
@@ -48,6 +48,10 @@ const placesSchema = new Schema({
     numOfBathrooms: {type: Number, default: 1},
     //min 1
     
+
+    //TODOS:
+    //SAVE PHOTOS
+    //SAVE DAILY PRICE OF THE PLACE
     
 }, {timestamps:true})
 

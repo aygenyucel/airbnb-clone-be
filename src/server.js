@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import http from "http";
 import { badRequestErrorHandler, conflictErrorHandler, forbiddenErrorHandler, genericServerError, notFoundErrorHandler, unauthorizedErrorHandler } from "./errorHandlers.js";
 import usersRouter from "./api/users/index.js";
+import placesRouter from "./api/places/index.js";
 
 
 dotenv.config();
@@ -37,6 +38,7 @@ server.use(cors({
 //************ ENDPOINTS  ***************/
 
 server.use("/users", usersRouter);
+server.use("/places", placesRouter);
 
 //************ ERROR HANDLERS *************/
 
