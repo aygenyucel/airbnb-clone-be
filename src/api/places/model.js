@@ -32,8 +32,6 @@ const placesSchema = new Schema({
     additional: {type: String},
     //Unit, floor, bldg, etc. 
     
-    showLocation: {type: Boolean, default: false},
-
     //**************************************/
 
     numOfGuests: {type: Number, default: 1},

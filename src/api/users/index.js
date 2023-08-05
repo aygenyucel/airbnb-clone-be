@@ -139,7 +139,9 @@ usersRouter.post("/signupLoginEmail", async(req, res, next) => {
 //To create new tokens with verifying refresh token first
 usersRouter.post("/signupLogin/refresh", async(req, res, next) => {
     try {
+        console.log(req.body)
         const {currentRefreshToken} = req.body;
+        console.log("xxxxx", currentRefreshToken)
         const {JWTToken, refreshToken} = await verifyRefreshAndCreateNewTokens(currentRefreshToken)
         res.send({JWTToken, refreshToken});
     } catch (error) {

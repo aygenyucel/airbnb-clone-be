@@ -43,6 +43,7 @@ export const verifyRefreshToken = (refreshToken) => new Promise(
     (resolve, reject) => {
         jwt.verify(refreshToken, process.env.REFRESH_SECRET, (err, originalPayload) => {
             if(err) {
+
                 reject(err)
             } else {
                 resolve(originalPayload)
@@ -67,16 +68,14 @@ export const createTokens = async(user) => {
 export const verifyRefreshAndCreateNewTokens = async(currentRefreshToken) => {
     //checking integrity and expiration date of refresh token
     const {_id} = await verifyRefreshToken(currentRefreshToken);
+    console.log("wwoowwoo", _id)
 
     const user = await User.findById(_id);
 
     if(user) {
-        if(user.refreshToken && user.refreshToken === currentRefreshToken) {
             const {JWTToken, refreshToken} = await createTokens(user)
             return {JWTToken, refreshToken, user};
-        } else {
-            throw createHttpError(401, `Refresh Token not valid!`)
-        }
+        
     } else {
         throw createHttpError(404, `User with id ${_id} not found!`)
     }
