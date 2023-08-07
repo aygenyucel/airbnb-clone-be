@@ -13,43 +13,51 @@ const placesSchema = new Schema({
     //**************************************/
 
     // location: {type: Geolocation},
-
-    country: {type: String, require: true},
-    //Country / Region
-
-    town: {type: String},
-    //Town / neighborhood
-
-    streetAddress: {type: String},
-
-    postalCode: {type: Number},
+    location: {
+        country: {type: String, require: true},
+        //Country / Region
     
-    district: {type: String},
-    //district, subdistrict
+        town: {type: String},
+        //Town / neighborhood
+    
+        streetAddress: {type: String},
+    
+        postalCode: {type: Number},
+        
+        district: {type: String},
+        //district, subdistrict
+    
+        city: {type: String, require: true},
+    
+        additional: {type: String},
+        //Unit, floor, bldg, etc. 
+    },
 
-    city: {type: String, require: true},
+    floorPlan: {
+        numOfGuests: {type: Number, default: 1},
+        //min 1
 
-    additional: {type: String},
-    //Unit, floor, bldg, etc. 
+        numOfBedrooms: {type: Number, default: 1},
+        //min 0
+
+        numOfBeds: {type: Number, default: 1},
+        //min 1
+
+        numOfBathrooms: {type: Number, default: 1},
+        //min 1
+
+    },
+
     
     //**************************************/
+    images: [{type: String}],
 
-    numOfGuests: {type: Number, default: 1},
-    //min 1
+    //**************************************/
+    dailyPrice: {type: Number},
 
-    numOfBedrooms: {type: Number, default: 1},
-    //min 0
+    //**************************************/
 
-    numOfBeds: {type: Number, default: 1},
-    //min 1
-
-    numOfBathrooms: {type: Number, default: 1},
-    //min 1
-    
-
-    //TODOS:
-    //SAVE PHOTOS
-    //SAVE DAILY PRICE OF THE PLACE
+    userID: {type: Schema.Types.ObjectId, ref: 'User'},
     
 }, {timestamps:true})
 
