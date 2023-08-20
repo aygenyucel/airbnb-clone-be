@@ -68,7 +68,6 @@ export const createTokens = async(user) => {
 export const verifyRefreshAndCreateNewTokens = async(currentRefreshToken) => {
     //checking integrity and expiration date of refresh token
     const {_id} = await verifyRefreshToken(currentRefreshToken);
-    console.log("wwoowwoo", _id)
 
     const user = await User.findById(_id);
 
