@@ -34,16 +34,16 @@ const placesSchema = new Schema({
     },
 
     floorPlan: {
-        numOfGuests: {type: Number, default: 1},
+        numOfGuests: {type: Number},
         //min 1
 
-        numOfBedrooms: {type: Number, default: 1},
+        numOfBedrooms: {type: Number},
         //min 0
 
-        numOfBeds: {type: Number, default: 1},
+        numOfBeds: {type: Number},
         //min 1
 
-        numOfBathrooms: {type: Number, default: 1},
+        numOfBathrooms: {type: Number},
         //min 1
 
     },
