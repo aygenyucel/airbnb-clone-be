@@ -42,7 +42,7 @@ placesRouter.get("/", async(req, res, next) => {
             // console.log("req.query =>", req.query)
             const searchedPlaces = await PlacesModel.find(req.query)
             // console.log("searched places", searchedPlaces)
-            res.send(searchedPlaces)s
+            res.send(searchedPlaces)
         } else {
             const places = await PlacesModel.find({});
             res.send(places)
