@@ -9,7 +9,9 @@ const usersSchema = new Schema({
     phone: {type: Number},
     birthDate: {type: Date},
     places: [{type: Schema.Types.ObjectId, ref: "Place"}],
+    profilePicture: {type:String},
     refreshToken: {type: String, required: false}
+
 },
 {timestamps: true})
 
