@@ -38,8 +38,15 @@ const upload = multer({
 //get all places
 placesRouter.get("/", async(req, res, next) => {
     try {
-        const places = await PlacesModel.find({});
-        res.send(places)
+        if(req.query != {}){
+            // console.log("req.query =>", req.query)
+            const searchedPlaces = await PlacesModel.find(req.query)
+            // console.log("searched places", searchedPlaces)
+            res.send(searchedPlaces)s
+        } else {
+            const places = await PlacesModel.find({});
+            res.send(places)
+        }
     } catch (error) {
         console.log("oppss, error:", error)
         next(error)
