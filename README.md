@@ -3,5 +3,5 @@
 </br>
 </br>
 
-## [FRONTEND REPOSITORY URL](https://github.com/aygenyucel/airbnb-clone-be)
+## [FRONTEND REPOSITORY URL](https://github.com/aygenyucel/airbnb-clone)
 
